@@ -28,7 +28,7 @@ const CustomDrawer = (props: any) => {
         {isLogin && profile ? (
           <ImageBackground
             source={{
-              uri: 'https://duhxmp3.000webhostapp.com/images/avatar/bg-drawer.jpg',
+              uri: 'https://duhxmp3.000webhostapp.com/images/avatar/bg-drawer.png',
             }}
             style={{padding: 20}}>
             <Image
@@ -47,6 +47,8 @@ const CustomDrawer = (props: any) => {
                 width: 80,
                 borderRadius: 40,
                 marginBottom: 10,
+                borderColor: '#fff',
+                borderWidth: 2,
               }}
             />
             <Text

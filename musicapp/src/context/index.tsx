@@ -8,6 +8,8 @@ interface AuthContextInterface {
   isLoading: boolean;
   isLogin: boolean;
   accessToken: string;
+  currentTrack: any;
+  setCurrentTrack: any;
   login: any;
   logout: any;
   signup: any;
@@ -20,6 +22,7 @@ const AuthProvider = ({children}: {children: React.ReactNode}) => {
   const [isLoading, setLoading] = useState(false);
   const [accessToken, setAccessToken] = useState('');
   const [isLogin, setLogin] = useState(false);
+  const [currentTrack, setCurrentTrack] = useState(null);
 
   // SIGN UP
   const signup = async (
@@ -123,7 +126,16 @@ const AuthProvider = ({children}: {children: React.ReactNode}) => {
 
   return (
     <AuthContext.Provider
-      value={{login, signup, logout, isLoading, accessToken, isLogin}}>
+      value={{
+        login,
+        signup,
+        logout,
+        setCurrentTrack,
+        isLoading,
+        accessToken,
+        isLogin,
+        currentTrack,
+      }}>
       {children}
     </AuthContext.Provider>
   );

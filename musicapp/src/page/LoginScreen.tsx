@@ -50,11 +50,11 @@ const LoginScreen = ({navigation}: any) => {
 
       <Pressable
         style={styles.loginBtn}
-        onPress={() => {
-          const checkLogin = login(username, password);
+        onPress={async () => {
+          const checkLogin = await login(username, password);
           // console.log(checkLogin);
 
-          if (checkLogin._j !== false) {
+          if (checkLogin) {
             navigation.navigate('Home');
           }
         }}>

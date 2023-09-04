@@ -1,9 +1,12 @@
+import {useNavigation} from '@react-navigation/native';
 import {Text, View, Pressable, Image, StyleSheet} from 'react-native';
-
 const TopicOfDayComponent = () => {
+  const navigation = useNavigation<any>();
   return (
     <View style={styles.container}>
-      <Pressable style={styles.topicItem}>
+      <Pressable
+        style={styles.topicItem}
+        onPress={() => navigation.navigate('NewRelease')}>
         <Image
           source={require('../../../../assets/images/newsong.png')}
           style={styles.cardImage}

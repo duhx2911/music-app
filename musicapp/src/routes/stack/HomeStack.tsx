@@ -5,9 +5,9 @@ import SignupScreen from '../../page/SignupScreen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Pressable} from 'react-native';
 import HomeTab from '../tab/HomeTab';
+import NewReleaseScreen from '../../page/NewReleaseScreen';
 
 const Stack = createNativeStackNavigator();
-
 const HomeStack = () => {
   return (
     <Stack.Navigator
@@ -44,6 +44,11 @@ const HomeStack = () => {
         name="Signup"
         component={SignupScreen}
         options={{title: 'Đăng ký'}}
+      />
+      <Stack.Screen
+        name="NewRelease"
+        component={NewReleaseScreen}
+        options={{headerShown: false}}
       />
     </Stack.Navigator>
   );
