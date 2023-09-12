@@ -11,24 +11,22 @@ const NewRelease = () => {
         data={dataMusic}
         horizontal
         showsHorizontalScrollIndicator={false}
+        pagingEnabled
         renderItem={(item: any) => {
           return (
             <Pressable key={item.item.id} style={styles.cardItem}>
-              <Image
-                style={styles.cardImg}
-                source={{uri: item.item.music_img}}
-              />
+              <Image style={styles.cardImg} source={{uri: item.item.artwork}} />
               <Text
                 ellipsizeMode="tail"
                 numberOfLines={1}
                 style={styles.cardTitle}>
-                {item.item.music_name}
+                {item.item.title}
               </Text>
               <Text
                 ellipsizeMode="tail"
                 numberOfLines={1}
                 style={styles.cardSinger}>
-                {item.item.singer}
+                {item.item.artist}
               </Text>
             </Pressable>
           );

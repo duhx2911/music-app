@@ -2,18 +2,25 @@ import {ScrollView, View} from 'react-native';
 import HeaderComponent from '../component/page/home/Header';
 import {StyleSheet} from 'react-native';
 import ContentComponent from '../component/page/home/Content';
+import BottomModalComponent from '../component/page/player/BottomModal';
+import {useContext} from 'react';
+import {AuthContext} from '../context';
 
 const HomeScreen = ({navigation}: any) => {
   const handleDrawer = () => {
     navigation.openDrawer();
   };
+  const {currentTrack} = useContext(AuthContext);
   return (
-    <ScrollView style={{backgroundColor: '#ffffff'}}>
-      <View style={styles.container}>
-        <HeaderComponent handleDrawer={handleDrawer} />
-        <ContentComponent />
-      </View>
-    </ScrollView>
+    <>
+      <ScrollView style={{backgroundColor: '#ffffff'}}>
+        <View style={styles.container}>
+          <HeaderComponent handleDrawer={handleDrawer} />
+          <ContentComponent />
+        </View>
+      </ScrollView>
+      {currentTrack && <BottomModalComponent />}
+    </>
   );
 };
 const styles = StyleSheet.create({

@@ -30,7 +30,7 @@ const TopicOfDayComponent = () => {
           style={styles.cardImage}
         />
         <Text numberOfLines={1} style={styles.cardTitle}>
-          Top 100 EDM
+          Top 100 US-UK
         </Text>
       </Pressable>
       <Pressable style={styles.topicItem}>

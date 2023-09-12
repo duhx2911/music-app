@@ -1,4 +1,7 @@
 {
   "name": "musicapp",
-  "displayName": "musicapp"
+  "displayName": "musicapp",
+  "expo": {
+    "plugins": [["expo-av"]]
+  }
 }

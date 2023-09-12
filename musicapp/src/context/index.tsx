@@ -9,6 +9,10 @@ interface AuthContextInterface {
   isLogin: boolean;
   accessToken: string;
   currentTrack: any;
+  currentIndex: number;
+  modalVisible: boolean;
+  setCurrentIndex: any;
+  setModalVisible: any;
   setCurrentTrack: any;
   login: any;
   logout: any;
@@ -23,6 +27,8 @@ const AuthProvider = ({children}: {children: React.ReactNode}) => {
   const [accessToken, setAccessToken] = useState('');
   const [isLogin, setLogin] = useState(false);
   const [currentTrack, setCurrentTrack] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   // SIGN UP
   const signup = async (
@@ -130,7 +136,13 @@ const AuthProvider = ({children}: {children: React.ReactNode}) => {
         login,
         signup,
         logout,
+
         setCurrentTrack,
+        setModalVisible,
+        setCurrentIndex,
+
+        currentIndex,
+        modalVisible,
         isLoading,
         accessToken,
         isLogin,

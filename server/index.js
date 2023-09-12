@@ -166,5 +166,15 @@ app.route("/music").get(function (req, res) {
     res.json(response);
   });
 });
+
+app.route("/genre/:genreId").get(function (req, res) {
+  const { genreId } = req.params;
+  let sql =
+    "SELECT music.*, categories.cate_name FROM categories INNER JOIN music ON music.genre = categories.id WHERE FIND_IN_SET(?, music.genre)";
+  con.query(sql, genreId, (err, response) => {
+    if (err) throw err;
+    res.json(response);
+  });
+});
 app.listen(port);
 console.log("Server started at http://localhost:" + port);
