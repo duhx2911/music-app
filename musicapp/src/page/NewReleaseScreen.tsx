@@ -23,26 +23,23 @@ import TrackPlayer, {
 
 import BottomModalComponent from '../component/page/player/BottomModal';
 
-const NewReleaseScreen = () => {
-  const {data: dataMusic} = useFetch('/music');
-  const {currentTrack, setCurrentTrack, currentIndex, setCurrentIndex} =
-    useContext(AuthContext);
+const NewReleaseScreen = ({route}: any) => {
+  const {genreID} = route.params;
+  const {data: dataMusic} = useFetch(`/genre/${genreID}`);
+  const {
+    currentTrack,
+    setCurrentTrack,
+    currentIndex,
+    setCurrentIndex,
+    setupPlayer,
+  } = useContext(AuthContext);
   const playbackState = usePlaybackState();
   const progress = useProgress();
   const navigation = useNavigation();
 
-  const setupPlayer = async () => {
-    try {
-      await TrackPlayer.setupPlayer();
-
-      await TrackPlayer.add(dataMusic);
-    } catch (error) {}
-  };
-  useEffect(() => {
-    if (dataMusic && dataMusic.length) {
-      setupPlayer();
-    }
-  }, [dataMusic]);
+  // useEffect(() => {
+  //   setupPlayer(dataMusic);
+  // }, [dataMusic]);
   useEffect(() => {
     (async () => {
       if (State.Playing === playbackState) {
@@ -100,6 +97,7 @@ const NewReleaseScreen = () => {
               <View>
                 <Pressable
                   onPress={async () => {
+                    await setupPlayer(dataMusic);
                     await TrackPlayer.skip(0);
                     const trackObject = await TrackPlayer.getTrack(0);
                     setCurrentTrack(trackObject);
@@ -121,6 +119,7 @@ const NewReleaseScreen = () => {
               <TouchableOpacity
                 key={item.id}
                 onPress={async () => {
+                  await setupPlayer(dataMusic);
                   await TrackPlayer.pause();
                   await TrackPlayer.skip(index);
                   await TrackPlayer.play();
@@ -134,7 +133,9 @@ const NewReleaseScreen = () => {
                     backgroundColor: item.id % 2 === 1 ? '#f7f7f7' : '#fff',
                   },
                 ]}>
-                {index === currentIndex && State.Playing === playbackState ? (
+                {currentTrack &&
+                currentTrack.id === item.id &&
+                State.Playing === playbackState ? (
                   <Ionicons
                     name="radio-outline"
                     size={20}

@@ -6,7 +6,7 @@ const TopicOfDayComponent = () => {
     <View style={styles.container}>
       <Pressable
         style={styles.topicItem}
-        onPress={() => navigation.navigate('NewRelease')}>
+        onPress={() => navigation.navigate('NewRelease', {genreID: 1})}>
         <Image
           source={require('../../../../assets/images/newsong.png')}
           style={styles.cardImage}
@@ -15,7 +15,9 @@ const TopicOfDayComponent = () => {
           Mới phát hành
         </Text>
       </Pressable>
-      <Pressable style={styles.topicItem}>
+      <Pressable
+        style={styles.topicItem}
+        onPress={() => navigation.navigate('NewRelease', {genreID: 7})}>
         <Image
           source={require('../../../../assets/images/top100VPop.png')}
           style={styles.cardImage}

@@ -3,6 +3,7 @@ import React, {createContext, useState, useEffect} from 'react';
 import {ACCESS_TOKEN, REFRESH_TOKEN, USER_INFO} from '../constants';
 import {postAPI} from '../api';
 import {ToastAndroid} from 'react-native';
+import TrackPlayer from 'react-native-track-player';
 
 interface AuthContextInterface {
   isLoading: boolean;
@@ -11,12 +12,15 @@ interface AuthContextInterface {
   currentTrack: any;
   currentIndex: number;
   modalVisible: boolean;
+  searchVal: any;
+  setSearchVal: any;
   setCurrentIndex: any;
   setModalVisible: any;
   setCurrentTrack: any;
   login: any;
   logout: any;
   signup: any;
+  setupPlayer: any;
 }
 export const AuthContext = createContext<AuthContextInterface>({});
 const showToast = (mess: string) => {
@@ -29,6 +33,7 @@ const AuthProvider = ({children}: {children: React.ReactNode}) => {
   const [currentTrack, setCurrentTrack] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [searchVal, setSearchVal] = useState(null);
 
   // SIGN UP
   const signup = async (
@@ -110,6 +115,25 @@ const AuthProvider = ({children}: {children: React.ReactNode}) => {
     setLoading(false);
   };
 
+  // Setup Player
+  const setupPlayer = async (dataMusic: any) => {
+    try {
+      await TrackPlayer.setupPlayer();
+      if ((await TrackPlayer.getQueue()).length) {
+        await TrackPlayer.reset();
+      }
+      // console.log('Check Player: run try');
+
+      await TrackPlayer.add(dataMusic);
+    } catch (error) {
+      if ((await TrackPlayer.getQueue()).length) {
+        await TrackPlayer.reset();
+      }
+      // console.log('Check Player: run catch');
+      await TrackPlayer.add(dataMusic);
+    }
+  };
+
   //   Check login
   const isLoggedIn = async () => {
     try {
@@ -140,7 +164,9 @@ const AuthProvider = ({children}: {children: React.ReactNode}) => {
         setCurrentTrack,
         setModalVisible,
         setCurrentIndex,
-
+        setSearchVal,
+        setupPlayer,
+        searchVal,
         currentIndex,
         modalVisible,
         isLoading,

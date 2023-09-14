@@ -176,5 +176,21 @@ app.route("/genre/:genreId").get(function (req, res) {
     res.json(response);
   });
 });
+app.route("/music/search").post(function (req, res) {
+  const keysearch = { stringPart: req.body.keysearch };
+  let sql =
+    'SELECT * FROM music WHERE  lower(title) LIKE "%' +
+    keysearch.stringPart +
+    '%" OR lower(artist) LIKE "%' +
+    keysearch.stringPart +
+    '%"';
+  con.query(sql, keysearch, (err, response) => {
+    if (err) {
+      res.send({ status: "error", message: err });
+    } else {
+      res.send({ status: "success", data: response });
+    }
+  });
+});
 app.listen(port);
 console.log("Server started at http://localhost:" + port);

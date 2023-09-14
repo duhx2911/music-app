@@ -18,7 +18,31 @@ import {AuthContext} from '../../../context';
 const BottomModalComponent = () => {
   const progress = useProgress();
   const playbackState = usePlaybackState();
-  const {currentTrack, setModalVisible} = useContext(AuthContext);
+  const {
+    currentTrack,
+    setModalVisible,
+    currentIndex,
+    setCurrentIndex,
+    setCurrentTrack,
+  } = useContext(AuthContext);
+
+  const nextTrack = async () => {
+    await TrackPlayer.pause();
+
+    if (currentIndex < (await TrackPlayer.getQueue()).length - 1) {
+      await TrackPlayer.skipToNext();
+      const trackObject = await TrackPlayer.getTrack(currentIndex + 1);
+      setCurrentIndex(currentIndex + 1);
+      setCurrentTrack(trackObject);
+    } else {
+      await TrackPlayer.skip(0);
+      setCurrentIndex(0);
+      const trackObject = await TrackPlayer.getTrack(0);
+      setCurrentTrack(trackObject);
+    }
+
+    await TrackPlayer.play();
+  };
   return (
     <TouchableOpacity onPress={() => setModalVisible(true)}>
       <View
@@ -92,7 +116,12 @@ const BottomModalComponent = () => {
             )}
           </Pressable>
           <Pressable>
-            <Ionicons name="play-skip-forward" size={24} color={'#000'} />
+            <Ionicons
+              onPress={nextTrack}
+              name="play-skip-forward"
+              size={24}
+              color={'#000'}
+            />
           </Pressable>
         </View>
       </View>
