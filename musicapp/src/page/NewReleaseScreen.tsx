@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {LinearGradient} from 'react-native-linear-gradient';
+
 import {Avatar} from '@rneui/themed';
 import useFetch from '../hooks/useFetch';
 import {useContext, useEffect} from 'react';
@@ -22,6 +22,7 @@ import TrackPlayer, {
 } from 'react-native-track-player';
 
 import BottomModalComponent from '../component/page/player/BottomModal';
+import ModalPlayerComponent from '../component/page/player/Modal';
 
 const NewReleaseScreen = ({route}: any) => {
   const {genreID} = route.params;
@@ -60,11 +61,10 @@ const NewReleaseScreen = ({route}: any) => {
   return (
     <>
       <View style={{backgroundColor: '#fff', flex: 1, flexGrow: 1}}>
-        <LinearGradient
-          colors={['#88d3ce', '#6e45e2']}
+        <View
           style={{
             height: 300,
-
+            backgroundColor: '#6f86d6',
             padding: 10,
           }}>
           <Ionicons
@@ -110,7 +110,7 @@ const NewReleaseScreen = ({route}: any) => {
               </View>
             </View>
           </View>
-        </LinearGradient>
+        </View>
 
         <FlatList
           data={dataMusic}
@@ -176,6 +176,7 @@ const NewReleaseScreen = ({route}: any) => {
       </View>
       {currentTrack && <BottomModalComponent />}
       {/* <PlayMusicComponent /> */}
+      <ModalPlayerComponent />
     </>
   );
 };
