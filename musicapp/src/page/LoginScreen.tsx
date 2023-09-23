@@ -16,7 +16,11 @@ const LoginScreen = ({navigation}: any) => {
   return (
     <View style={styles.container}>
       <View>
-        <Text style={{fontSize: 50, fontWeight: '500'}}>This is my Logo</Text>
+        {/* <Text style={{fontSize: 50, fontWeight: '500'}}>This is my Logo</Text> */}
+        <Image
+          source={require('../assets/images/logoapp.png')}
+          style={{width: 150, height: 150}}
+        />
       </View>
       <View style={{width: '100%', rowGap: 20}}>
         <TextInput
@@ -84,7 +88,7 @@ const LoginScreen = ({navigation}: any) => {
           <Image source={require('../assets/images/cib_apple.png')} />
         </Pressable>
       </View>
-      <View style={{marginTop: 120}}>
+      <View style={{position: 'relative', top: 30}}>
         <Text style={{fontSize: 16}}>
           Bạn chưa có tài khoản?{' '}
           <Text

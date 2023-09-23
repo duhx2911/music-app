@@ -23,10 +23,13 @@ const SignupScreen = ({navigation}: any) => {
   const [password, setPassword] = useState('');
   const [isLoading, setLoading] = useState(false);
   return (
-    <ScrollView style={{backgroundColor: 'white'}}>
+    <ScrollView style={{backgroundColor: 'white', flex: 1}}>
       <View style={styles.container}>
         <View>
-          <Text style={{fontSize: 50, fontWeight: '500'}}>This is my Logo</Text>
+          <Image
+            source={require('../assets/images/logoapp.png')}
+            style={{width: 150, height: 150}}
+          />
         </View>
         <View style={{width: '100%', rowGap: 15}}>
           <TextInput
@@ -110,7 +113,7 @@ const SignupScreen = ({navigation}: any) => {
             <Image source={require('../assets/images/cib_apple.png')} />
           </Pressable>
         </View>
-        <View style={{marginTop: 50}}>
+        <View style={{marginTop: 30}}>
           <Text style={{fontSize: 16}}>
             Bạn đã có tài khoản?{' '}
             <Text
@@ -126,7 +129,6 @@ const SignupScreen = ({navigation}: any) => {
 };
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
     paddingHorizontal: 20,
@@ -146,7 +148,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 12,
     borderRadius: 8,
-    marginTop: 30,
+    marginTop: 20,
   },
   loginWith: {
     flexDirection: 'row',
