@@ -6,6 +6,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Pressable} from 'react-native';
 import HomeTab from '../tab/HomeTab';
 import NewReleaseScreen from '../../page/NewReleaseScreen';
+import EditProfileScreen from '../../page/EditProfile';
+import FormEditProfileScreen from '../../page/FormEditProfileScreen';
 
 const Stack = createNativeStackNavigator();
 const HomeStack = () => {
@@ -48,6 +50,16 @@ const HomeStack = () => {
       <Stack.Screen
         name="NewRelease"
         component={NewReleaseScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="EditProfile"
+        component={EditProfileScreen}
+        options={{title: 'Thiết lập tài khoản'}}
+      />
+      <Stack.Screen
+        name="EditProfileForm"
+        component={FormEditProfileScreen}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

@@ -12,17 +12,34 @@ interface user {
   RefreshToken: string;
   Status: number;
   Username: string;
+  sex: string;
+  bio: string;
+  birthday: string;
 }
 const useProfile = (isLogin: boolean) => {
   const [user, setUser] = useState<user>();
   useEffect(() => {
     (async () => {
-      if (isLogin) {
-        let res = await getAPI({
-          path: '/profile',
-        });
-        let data = res && res.data ? res.data : [];
-        setUser(data);
+      try {
+        if (isLogin) {
+          let res = await getAPI({
+            path: '/profile',
+          });
+          // console.log(res);
+          // console.log('Data 1: ', res);
+          if (res.data.AccountID === 200) {
+            let data = res && res.data ? res.data : [];
+            setUser(data);
+          } else {
+            let resNew = await await getAPI({
+              path: '/profile',
+            });
+            let data = resNew && resNew.data ? resNew.data : [];
+            setUser(data);
+          }
+        }
+      } catch (error) {
+        console.log('catch check: ', error);
       }
     })();
   }, [isLogin]);

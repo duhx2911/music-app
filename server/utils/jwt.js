@@ -1,5 +1,5 @@
 module.exports = {
   accessTokenSecret: "access-token-secret",
-  accessTokenLife: "30m",
+  accessTokenLife: "10m",
   refreshTokenSize: 100,
 };

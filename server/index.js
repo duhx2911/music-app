@@ -81,9 +81,7 @@ app
     });
   })
   .put(function (req, res) {
-    let sql = `UPDATE Account 
-              SET ?
-              WHERE AccountID = ?`;
+    let sql = `UPDATE Account SET ? WHERE AccountID = ?`;
     const { body, params } = req;
     const { accountId } = params;
     if (!body.AccountID) {

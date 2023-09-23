@@ -13,13 +13,20 @@ const UserScreen = ({navigation}: any) => {
   const openSignup = () => {
     navigation.navigate('Signup');
   };
+  const openProfile = () => {
+    if (isLogin) {
+      navigation.navigate('EditProfile');
+    } else {
+      navigation.navigate('Login');
+    }
+  };
   const {isLogin, logout, currentTrack} = useContext(AuthContext);
   const profile = useProfile(isLogin);
   return (
     <>
       <ScrollView>
         <HeaderUser userProps={{openLogin, openSignup, isLogin, profile}} />
-        <ContentUser />
+        <ContentUser userProps={{openProfile}} />
         {isLogin ? (
           <Pressable
             style={{

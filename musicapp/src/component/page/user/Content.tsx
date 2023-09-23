@@ -2,11 +2,13 @@ import {Text, View, Pressable, StyleSheet} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 
-const ContentUser = () => {
+const ContentUser = ({userProps}: any) => {
   return (
     <View>
       <View style={styles.help}>
-        <Pressable style={[styles.helpItem, styles.borderBottom]}>
+        <Pressable
+          onPress={userProps.openProfile}
+          style={[styles.helpItem, styles.borderBottom]}>
           <View
             style={{flexDirection: 'row', columnGap: 10, alignItems: 'center'}}>
             <Ionicons name="person" size={20} />

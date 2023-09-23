@@ -27,7 +27,7 @@ export const getAPI = async ({
     });
     return response;
   } catch (error: any) {
-    console.log('error', error);
+    // console.log('error getAPI: ', error);
 
     // check token expired - kiem tra token het han => refresh lai acccess new.
     if (error && error.response && error.response.status === 401) {
@@ -65,6 +65,9 @@ export const putAPI = (body: any) => {
   // .then((response) => {
   //   return response.status;
   // });
+};
+export const putAPIAccount = (body: any) => {
+  return axios.put(`http://10.0.2.2:8080/account/${body.AccountID}`, body);
 };
 
 // DELETE
