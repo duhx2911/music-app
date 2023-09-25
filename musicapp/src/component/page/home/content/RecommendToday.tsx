@@ -1,32 +1,43 @@
 import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import useFetch from '../../../../hooks/useFetch';
 
-const NewRelease = () => {
-  const {data: dataMusic} = useFetch('/newrelease');
+const RecommendTodayComponent = () => {
+  const {data: dataMusic} = useFetch('/musictoday');
   return (
     <View style={{marginTop: 20}}>
-      <Text style={styles.title}>Mới phát hành</Text>
+      <Text style={styles.title}>Gợi ý hôm nay</Text>
       <FlatList
         style={{marginTop: 10}}
         data={dataMusic}
         horizontal
         showsHorizontalScrollIndicator={false}
         pagingEnabled
-        renderItem={(item: any) => {
+        renderItem={({
+          item,
+        }: {
+          item: {
+            id: number;
+            genre: string;
+            artist: string;
+            artwork: string;
+            title: string;
+            url: string;
+          };
+        }) => {
           return (
-            <Pressable key={item.item.id} style={styles.cardItem}>
-              <Image style={styles.cardImg} source={{uri: item.item.artwork}} />
+            <Pressable key={item.id} style={styles.cardItem}>
+              <Image style={styles.cardImg} source={{uri: item.artwork}} />
               <Text
                 ellipsizeMode="tail"
                 numberOfLines={1}
                 style={styles.cardTitle}>
-                {item.item.title}
+                {item.title}
               </Text>
               <Text
                 ellipsizeMode="tail"
                 numberOfLines={1}
                 style={styles.cardSinger}>
-                {item.item.artist}
+                {item.artist}
               </Text>
             </Pressable>
           );
@@ -61,4 +72,4 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
 });
-export default NewRelease;
+export default RecommendTodayComponent;
