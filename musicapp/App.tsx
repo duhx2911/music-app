@@ -13,6 +13,8 @@ import {ModalPortal} from 'react-native-modals';
 import {useEffect} from 'react';
 import SplashScreen from 'react-native-splash-screen';
 import {Platform} from 'react-native';
+import {Provider} from 'react-redux';
+import store from './src/stores';
 
 const App = () => {
   useEffect(() => {
@@ -21,10 +23,12 @@ const App = () => {
     }
   }, []);
   return (
-    <AuthProvider>
-      <MainRouter />
-      <ModalPortal />
-    </AuthProvider>
+    <Provider store={store}>
+      <AuthProvider>
+        <MainRouter />
+        <ModalPortal />
+      </AuthProvider>
+    </Provider>
   );
 };
 

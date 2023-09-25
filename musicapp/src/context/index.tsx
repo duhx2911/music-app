@@ -4,7 +4,9 @@ import {ACCESS_TOKEN, REFRESH_TOKEN, USER_INFO} from '../constants';
 import {postAPI} from '../api';
 import {ToastAndroid} from 'react-native';
 import TrackPlayer from 'react-native-track-player';
-
+import {useSelector} from 'react-redux';
+import store from '../stores';
+import {getListSong} from '../stores/action/actionReducer';
 interface AuthContextInterface {
   isLoading: boolean;
   isLogin: boolean;
@@ -21,6 +23,7 @@ interface AuthContextInterface {
   logout: any;
   signup: any;
   setupPlayer: any;
+  dataMusic: any;
 }
 export const AuthContext = createContext<AuthContextInterface>({});
 const showToast = (mess: string) => {
@@ -34,6 +37,13 @@ const AuthProvider = ({children}: {children: React.ReactNode}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [searchVal, setSearchVal] = useState(null);
+  const dataMusic: any = useSelector<any>(state => state.MusicReducer.songs);
+  const fetchData = async () => {
+    store.dispatch(getListSong());
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   // SIGN UP
   const signup = async (
@@ -160,7 +170,6 @@ const AuthProvider = ({children}: {children: React.ReactNode}) => {
         login,
         signup,
         logout,
-
         setCurrentTrack,
         setModalVisible,
         setCurrentIndex,
@@ -173,6 +182,7 @@ const AuthProvider = ({children}: {children: React.ReactNode}) => {
         accessToken,
         isLogin,
         currentTrack,
+        dataMusic,
       }}>
       {children}
     </AuthContext.Provider>
