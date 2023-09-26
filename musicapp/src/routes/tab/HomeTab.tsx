@@ -4,6 +4,7 @@ import SearchScreen from '../../page/SearchScreen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {StyleSheet} from 'react-native';
 import UserScreen from '../../page/UserScreen';
+import LikedScreen from '../../page/Liked';
 
 const Tab = createBottomTabNavigator();
 const HomeTab = () => {
@@ -23,6 +24,9 @@ const HomeTab = () => {
           } else if (route.name === 'UserScreen') {
             iconName = focused ? 'person' : 'person-outline';
             color = focused ? primaryColor : '#4B4B4B';
+          } else if (route.name === 'LikedScreen') {
+            iconName = focused ? 'heart' : 'heart-outline';
+            color = focused ? primaryColor : '#4B4B4B';
           }
 
           return <Ionicons name={iconName} size={26} color={color} />;
@@ -34,6 +38,7 @@ const HomeTab = () => {
       })}>
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Search" component={SearchScreen} />
+      <Tab.Screen name="LikedScreen" component={LikedScreen} />
       <Tab.Screen name="UserScreen" component={UserScreen} />
     </Tab.Navigator>
   );

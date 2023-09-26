@@ -22,7 +22,7 @@ import TrackPlayer, {
 } from 'react-native-track-player';
 
 import BottomModalComponent from '../component/page/player/BottomModal';
-import ModalPlayerComponent from '../component/page/player/Modal';
+import HeartComponent from '../component/button/Heart';
 
 const NewReleaseScreen = ({route}: any) => {
   const {genreID} = route.params;
@@ -166,7 +166,7 @@ const NewReleaseScreen = ({route}: any) => {
                     flexDirection: 'row',
                     columnGap: 10,
                   }}>
-                  <Ionicons name="heart-outline" size={28} color={'#000'} />
+                  <HeartComponent song={item} />
                   <Ionicons name="ellipsis-vertical" size={28} color={'#000'} />
                 </View>
               </TouchableOpacity>
@@ -176,7 +176,6 @@ const NewReleaseScreen = ({route}: any) => {
       </View>
       {currentTrack && <BottomModalComponent />}
       {/* <PlayMusicComponent /> */}
-      <ModalPlayerComponent />
     </>
   );
 };

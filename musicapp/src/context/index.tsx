@@ -6,7 +6,7 @@ import {ToastAndroid} from 'react-native';
 import TrackPlayer from 'react-native-track-player';
 import {useSelector} from 'react-redux';
 import store from '../stores';
-import {getListSong} from '../stores/action/actionReducer';
+import {getListLiked, getListSong} from '../stores/action/actionReducer';
 interface AuthContextInterface {
   isLoading: boolean;
   isLogin: boolean;
@@ -24,6 +24,7 @@ interface AuthContextInterface {
   signup: any;
   setupPlayer: any;
   dataMusic: any;
+  dataLiked: any;
 }
 export const AuthContext = createContext<AuthContextInterface>({});
 const showToast = (mess: string) => {
@@ -38,7 +39,9 @@ const AuthProvider = ({children}: {children: React.ReactNode}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [searchVal, setSearchVal] = useState(null);
   const dataMusic: any = useSelector<any>(state => state.MusicReducer.songs);
+  const dataLiked: any = useSelector<any>(state => state.LikedReducer.likeds);
   const fetchData = async () => {
+    store.dispatch(getListLiked());
     store.dispatch(getListSong());
   };
   useEffect(() => {
@@ -183,6 +186,7 @@ const AuthProvider = ({children}: {children: React.ReactNode}) => {
         isLogin,
         currentTrack,
         dataMusic,
+        dataLiked,
       }}>
       {children}
     </AuthContext.Provider>

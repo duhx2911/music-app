@@ -165,6 +165,72 @@ app.route("/music").get(function (req, res) {
   });
 });
 
+app.route("/newrelease").get(function (req, res) {
+  let sql = "SELECT * FROM music order by id desc limit 8";
+  con.query(sql, (err, response) => {
+    if (err) throw err;
+    res.json(response);
+  });
+});
+app.route("/artisttoday").get(function (req, res) {
+  let sql =
+    'SELECT DISTINCT * FROM nokadb.artist order by rand(date("Ymd")) limit 8';
+  con.query(sql, (err, response) => {
+    if (err) throw err;
+    res.json(response);
+  });
+});
+app.route("/musictoday").get(function (req, res) {
+  let sql =
+    'SELECT DISTINCT * FROM nokadb.music order by rand(date("Ymd")) limit 8';
+  con.query(sql, (err, response) => {
+    if (err) throw err;
+    res.json(response);
+  });
+});
+app
+  .route("/liked")
+  .get(function (req, res) {
+    let sql = "SELECT * FROM nokadb.liked ";
+    con.query(sql, body, (err, response) => {
+      if (err) throw err;
+      res.json(response);
+    });
+  })
+  .post(function (req, res) {
+    let sql = "insert into liked set ?";
+    const { body } = req;
+    con.query(sql, body, function (err, response) {
+      if (err) {
+        res.send({ status: "error", message: err });
+      } else {
+        res.send({
+          status: "success",
+          data: { ...body, id: response.insertId },
+        });
+      }
+    });
+  });
+app.route("/liked/:likedID").delete(function (req, res) {
+  const { likedID } = req.params;
+  let sql = `DELETE FROM liked WHERE id = ? `;
+  con.query(sql, likedID, function (err) {
+    if (err) {
+      res.send({ status: "error", message: err });
+    } else {
+      res.send({ status: "success", data: likedID });
+    }
+  });
+});
+app.route("/getliked/:userID").get(function (req, res) {
+  const { userID } = req.params;
+  let sql = "SELECT * FROM nokadb.liked where id_user = ?";
+  con.query(sql, userID, (err, response) => {
+    if (err) throw err;
+    res.json(response);
+  });
+});
+
 app.route("/genre/:genreId").get(function (req, res) {
   const { genreId } = req.params;
   let sql =

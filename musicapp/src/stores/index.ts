@@ -1,12 +1,12 @@
 // redux saga or redux thunk
 import {configureStore} from '@reduxjs/toolkit';
-import {counterReducer, MusicReducer} from './reducer/counterReducer';
+import {MusicReducer, LikedReducer} from './reducer/counterReducer';
 import {combineReducers} from 'redux';
 
 const store = configureStore({
   reducer: combineReducers({
-    counterReducer,
     MusicReducer,
+    LikedReducer,
   }),
   // middleware: getDefaultMiddleware =>
   //   getDefaultMiddleware().concat(logger, thunk),

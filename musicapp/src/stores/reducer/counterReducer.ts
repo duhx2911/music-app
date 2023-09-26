@@ -1,19 +1,17 @@
-const initialState = {value: 0};
-
-function counterReducer(state = initialState, action: any) {
-  switch (action.type) {
-    case 'increment': {
-      return {...state, value: action.state};
-    }
-    case 'decrement':
-      return {...state, value: action.state};
-    default:
-      return state;
-  }
-}
-
 interface ISong {
   id: number;
+  genre: string;
+  title: string;
+  artwork: string;
+  artist: string;
+  url: string;
+  like: number;
+  view: number;
+}
+interface ILiked {
+  id: number;
+  id_song: number;
+  id_user: number;
   genre: string;
   title: string;
   artwork: string;
@@ -84,4 +82,51 @@ const MusicReducer = (
       return state;
   }
 };
-export {counterReducer, MusicReducer};
+const LikedReducer = (
+  state: {loading: boolean; likeds: ILiked[]} = {
+    loading: false,
+    likeds: [],
+  },
+  action: {likeds: ILiked[]; liked: ILiked; id: number; type: string},
+) => {
+  switch (action.type) {
+    case 'SHOW_LIKED_LOADING': {
+      return {...state, isLoading: true};
+    }
+    case 'HIDE_LIKED_LOADING': {
+      return {...state, isLoading: false};
+    }
+    case 'GET_LIKED_SONGS': {
+      return {...state, isLoading: false, likeds: action.likeds || []};
+    }
+    case 'POST_LIST_LIKED': {
+      let lstLikedSong = state.likeds;
+      if (action.liked) {
+        lstLikedSong = [...lstLikedSong, action.liked];
+      }
+      return {
+        ...state,
+        isLoading: false,
+        likeds: lstLikedSong,
+      };
+    }
+    case 'DELETE_LIKED': {
+      let lstLikedSong = state.likeds;
+      let newLstLikedSong;
+      if (action.id) {
+        newLstLikedSong = lstLikedSong.filter(
+          (item: ILiked) => item.id !== Number(action.id),
+        );
+      }
+      return {
+        ...state,
+        isLoading: false,
+        likeds: newLstLikedSong,
+      };
+    }
+    default:
+      return state;
+  }
+};
+
+export {MusicReducer, LikedReducer};

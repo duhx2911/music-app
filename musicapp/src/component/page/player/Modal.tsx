@@ -12,6 +12,7 @@ import TrackPlayer, {
   usePlaybackState,
   useProgress,
 } from 'react-native-track-player';
+import HeartComponent from '../../button/Heart';
 
 const ModalPlayerComponent = () => {
   const {
@@ -115,7 +116,7 @@ const ModalPlayerComponent = () => {
                 {currentTrack && currentTrack.artist}
               </Text>
             </Pressable>
-            <Ionicons name="heart-outline" size={24} color={'white'} />
+            {currentTrack && <HeartComponent song={currentTrack} />}
           </View>
 
           {/* Slider */}
