@@ -174,7 +174,7 @@ app.route("/newrelease").get(function (req, res) {
 });
 app.route("/artisttoday").get(function (req, res) {
   let sql =
-    'SELECT DISTINCT * FROM nokadb.artist order by rand(date("Ymd")) limit 8';
+    "SELECT DISTINCT * FROM nokadb.artist order by rand(CURDATE()) limit 8";
   con.query(sql, (err, response) => {
     if (err) throw err;
     res.json(response);
@@ -182,7 +182,7 @@ app.route("/artisttoday").get(function (req, res) {
 });
 app.route("/musictoday").get(function (req, res) {
   let sql =
-    'SELECT DISTINCT * FROM nokadb.music order by rand(date("Ymd")) limit 8';
+    "SELECT DISTINCT * FROM nokadb.music order by rand(CURDATE()) limit 8";
   con.query(sql, (err, response) => {
     if (err) throw err;
     res.json(response);

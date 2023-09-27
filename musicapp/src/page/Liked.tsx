@@ -6,13 +6,13 @@ import {AuthContext} from '../context';
 import BottomModalComponent from '../component/page/player/BottomModal';
 
 const LikedScreen = () => {
-  const {dataLiked, currentTrack} = useContext(AuthContext);
+  const {dataLiked, currentTrack, isLogin} = useContext(AuthContext);
   // console.log(dataLiked);
 
   return (
     <>
       <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
-        {dataLiked && dataLiked.length ? (
+        {isLogin && dataLiked && dataLiked.length ? (
           <LikedItemComponent />
         ) : (
           <View>

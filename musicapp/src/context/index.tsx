@@ -45,8 +45,10 @@ const AuthProvider = ({children}: {children: React.ReactNode}) => {
     store.dispatch(getListSong());
   };
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (isLogin) {
+      fetchData();
+    }
+  }, [isLogin]);
 
   // SIGN UP
   const signup = async (
