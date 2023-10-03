@@ -2,7 +2,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {createContext, useState, useEffect} from 'react';
 import {ACCESS_TOKEN, REFRESH_TOKEN, USER_INFO} from '../constants';
 import {postAPI} from '../api';
-import {ToastAndroid} from 'react-native';
 import TrackPlayer from 'react-native-track-player';
 import {useSelector} from 'react-redux';
 import store from '../stores';
@@ -27,9 +26,6 @@ interface AuthContextInterface {
   dataLiked: any;
 }
 export const AuthContext = createContext<AuthContextInterface>({});
-const showToast = (mess: string) => {
-  ToastAndroid.show(mess, ToastAndroid.SHORT);
-};
 const AuthProvider = ({children}: {children: React.ReactNode}) => {
   const [isLoading, setLoading] = useState(false);
   const [accessToken, setAccessToken] = useState('');
@@ -57,66 +53,40 @@ const AuthProvider = ({children}: {children: React.ReactNode}) => {
     username: string,
     password: string,
   ) => {
-    let signuped = false;
-    if (fullname === '') {
-      showToast('Hãy điền tên của bạn!');
-    } else if (email === '') {
-      showToast('Hãy điền email!');
-    } else if (username === '') {
-      showToast('Hãy điền tên người dùng!');
-    } else if (password === '') {
-      showToast('Hãy điền mật khẩu!');
-    } else {
-      const postData = await postAPI({
-        path: '/auth/register',
-        body: {
-          email: email,
-          password: password,
-          username: username,
-          fullname: fullname,
-        },
-      });
-      if (postData.status === 200) {
-        if (postData.data.status === 'success') {
-          signuped = true;
-        }
-      }
-    }
-
-    return signuped;
+    const postData = await postAPI({
+      path: '/auth/register',
+      body: {
+        email: email,
+        password: password,
+        username: username,
+        fullname: fullname,
+      },
+    });
+    return postData;
   };
   // LOGIN
   const login = async (username: string, password: string) => {
-    let logined = false;
-    if (username === '') {
-      showToast('Hãy điền tên đăng nhập hoặc email!');
-    } else if (password === '') {
-      showToast('Hãy điền mật khẩu!');
-    } else {
-      const postData = await postAPI({
-        path: '/auth/login',
-        body: {
-          username: username,
-          password: password,
-        },
-      });
-      if (postData.status === 200) {
-        if (postData.data.msg === 'Đăng nhập thành công.') {
-          // openNotification("top", "error", "Đăng ký thành công");
-          // console.log("PostData", postData);
-          const accessToken = postData.data.accessToken;
-          const refreshToken = postData.data.refreshToken;
-          const userInfo = postData.data.user;
-          AsyncStorage.setItem(ACCESS_TOKEN, accessToken);
-          AsyncStorage.setItem(REFRESH_TOKEN, refreshToken);
-          AsyncStorage.setItem(USER_INFO, JSON.stringify(userInfo));
-          setAccessToken(accessToken);
-          setLogin(true);
-          logined = true;
-        }
+    const postData = await postAPI({
+      path: '/auth/login',
+      body: {
+        username: username,
+        password: password,
+      },
+    });
+
+    if (postData.status === 200) {
+      if (postData.data.msg === 'Đăng nhập thành công.') {
+        const accessToken = postData.data.accessToken;
+        const refreshToken = postData.data.refreshToken;
+        const userInfo = postData.data.user;
+        AsyncStorage.setItem(ACCESS_TOKEN, accessToken);
+        AsyncStorage.setItem(REFRESH_TOKEN, refreshToken);
+        AsyncStorage.setItem(USER_INFO, JSON.stringify(userInfo));
+        setAccessToken(accessToken);
+        setLogin(true);
       }
     }
-    return logined;
+    return postData;
   };
 
   //   Logout
