@@ -14,8 +14,12 @@ exports.register = async (req, res) => {
   const fullname = req.body.fullname;
   const email = req.body.email;
   const user = await getAccounts({ username });
-  if (user && user.length) res.status(409).send("Tên tài khoản đã tồn tại.");
-  else {
+  if (user && user.length) {
+    return res.send({
+      status: "error",
+      mess: "Tên tài khoản đã tồn tại",
+    });
+  } else {
     // const createUser = await userModel.createUser(newUser);
     const createUser = await registerAccount({
       username,
