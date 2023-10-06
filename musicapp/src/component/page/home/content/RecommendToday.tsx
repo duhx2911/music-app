@@ -1,5 +1,6 @@
 import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import useFetch from '../../../../hooks/useFetch';
+import {Song} from '../../../../constants';
 
 const RecommendTodayComponent = () => {
   const {data: dataMusic} = useFetch('/musictoday');
@@ -12,18 +13,7 @@ const RecommendTodayComponent = () => {
         horizontal
         showsHorizontalScrollIndicator={false}
         pagingEnabled
-        renderItem={({
-          item,
-        }: {
-          item: {
-            id: number;
-            genre: string;
-            artist: string;
-            artwork: string;
-            title: string;
-            url: string;
-          };
-        }) => {
+        renderItem={({item}: {item: Song}) => {
           return (
             <Pressable key={item.id} style={styles.cardItem}>
               <Image style={styles.cardImg} source={{uri: item.artwork}} />

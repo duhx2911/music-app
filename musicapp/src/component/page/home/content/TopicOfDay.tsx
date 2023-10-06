@@ -6,18 +6,30 @@ const TopicOfDayComponent = () => {
     <View style={styles.container}>
       <Pressable
         style={styles.topicItem}
-        onPress={() => navigation.navigate('NewRelease', {genreID: 1})}>
+        onPress={() =>
+          navigation.navigate('NewRelease', {
+            genreID: 1,
+            title: 'Hot trong ngày',
+            subtitle: 'Những bài hát được nghe nhiều nhất trong ngày hôm nay',
+          })
+        }>
         <Image
           source={require('../../../../assets/images/newsong.png')}
           style={styles.cardImage}
         />
         <Text numberOfLines={1} style={styles.cardTitle}>
-          Mới phát hành
+          Hot trong ngày
         </Text>
       </Pressable>
       <Pressable
         style={styles.topicItem}
-        onPress={() => navigation.navigate('NewRelease', {genreID: 7})}>
+        onPress={() =>
+          navigation.navigate('NewRelease', {
+            genreID: 7,
+            title: 'Top 100 V-Pop',
+            subtitle: 'Top 100 ca khúc V-Pop',
+          })
+        }>
         <Image
           source={require('../../../../assets/images/top100VPop.png')}
           style={styles.cardImage}
@@ -26,7 +38,15 @@ const TopicOfDayComponent = () => {
           Top 100 V-Pop
         </Text>
       </Pressable>
-      <Pressable style={styles.topicItem}>
+      <Pressable
+        style={styles.topicItem}
+        onPress={() =>
+          navigation.navigate('NewRelease', {
+            genreID: 6,
+            title: 'Top 100 US-UK',
+            subtitle: 'Top 100 US-UK',
+          })
+        }>
         <Image
           source={require('../../../../assets/images/top100EDM.png')}
           style={styles.cardImage}
@@ -35,16 +55,20 @@ const TopicOfDayComponent = () => {
           Top 100 US-UK
         </Text>
       </Pressable>
-      <Pressable style={styles.topicItem}>
+      <Pressable
+        style={styles.topicItem}
+        onPress={() => navigation.navigate('NewRelease', {genreID: 2})}>
         <Image
           source={require('../../../../assets/images/rapvietmua3.jpg')}
           style={styles.cardImage}
         />
         <Text numberOfLines={1} style={styles.cardTitle}>
-          Rap việt mùa 3 (2023)
+          Hip hop
         </Text>
       </Pressable>
-      <Pressable style={styles.topicItem}>
+      <Pressable
+        style={styles.topicItem}
+        onPress={() => navigation.navigate('NewRelease', {genreID: 3})}>
         <Image
           source={require('../../../../assets/images/poprising.jpg')}
           style={styles.cardImage}

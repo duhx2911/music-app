@@ -1,4 +1,3 @@
-import {Avatar} from '@rneui/themed';
 import {useContext, useEffect, useState} from 'react';
 import {
   Pressable,
@@ -7,6 +6,8 @@ import {
   Text,
   ToastAndroid,
   View,
+  Image,
+  SafeAreaView,
 } from 'react-native';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {AuthContext} from '../context';
@@ -28,8 +29,6 @@ const EditProfileScreen = ({route, navigation}: any) => {
     filename: '',
   });
   const [dataUpdate, setDataUpdate] = useState<any>(null);
-  console.log('Dataupdate: ', route.params);
-  console.log('Dataupdate: ', dataUpdate);
 
   const imagePicker = async () => {
     let options = {
@@ -40,7 +39,7 @@ const EditProfileScreen = ({route, navigation}: any) => {
       },
     };
     const result = await launchImageLibrary(options);
-    // console.log(result);
+
     if (result.didCancel) {
       console.log('didCancel', result.didCancel);
     } else if (result.assets) {
@@ -59,13 +58,11 @@ const EditProfileScreen = ({route, navigation}: any) => {
       const url = await storage()
         .ref(`images/${newAvatar.filename}`)
         .getDownloadURL();
-      // console.log(url);
       const updateProfile = await putAPIAccount({
         ...dataUpdate,
         AccountID: profile?.AccountID,
         AvatarImageName: url,
       });
-      // console.log(updateProfile);
 
       if (updateProfile.data.status === 'success') {
         ToastAndroid.show('Đã lưu thay đổi', ToastAndroid.SHORT);
@@ -75,8 +72,6 @@ const EditProfileScreen = ({route, navigation}: any) => {
         ...dataUpdate,
         AccountID: profile?.AccountID,
       });
-      // console.log(updateProfile);
-
       if (updateProfile.data.status === 'success') {
         ToastAndroid.show('Đã lưu thay đổi', ToastAndroid.SHORT);
       }
@@ -91,158 +86,159 @@ const EditProfileScreen = ({route, navigation}: any) => {
       }
     }
   }, [route.params]);
-  // console.log(route.params.fullname);
   return (
-    <ScrollView>
-      <View>
-        <View style={styles.header}>
-          <Avatar
-            source={
-              newAvatar && newAvatar.uri.length
-                ? {
-                    uri: newAvatar.uri,
-                  }
-                : isLogin && profile
-                ? {
-                    uri: profile.AvatarImageName,
-                  }
-                : {
-                    uri: 'https://duhxmp3.000webhostapp.com/images/avatar/user-profile.jpg',
-                  }
-            }
-            avatarStyle={{borderColor: 'white', borderWidth: 2}}
-            size={84}
-            rounded
-          />
-          <Pressable onPress={imagePicker} style={styles.editImgBtn}>
-            <Text>Sửa</Text>
-          </Pressable>
-        </View>
+    <SafeAreaView>
+      <ScrollView>
+        <View>
+          <View style={styles.header}>
+            <Image
+              source={
+                newAvatar && newAvatar.uri.length
+                  ? {
+                      uri: newAvatar.uri,
+                    }
+                  : isLogin && profile
+                  ? {
+                      uri: profile.AvatarImageName,
+                    }
+                  : {
+                      uri: 'https://duhxmp3.000webhostapp.com/images/avatar/user-profile.jpg',
+                    }
+              }
+              style={styles.avatar}
+            />
+            <Pressable onPress={imagePicker} style={styles.editImgBtn}>
+              <Text>Sửa</Text>
+            </Pressable>
+          </View>
 
-        <View style={{backgroundColor: '#fff'}}>
-          <Pressable
-            style={styles.attrItem}
-            onPress={() =>
-              navigation.navigate('EditProfileForm', {
-                title: 'Sửa tên',
-                value:
-                  dataUpdate && dataUpdate.FullName
+          <View style={{backgroundColor: '#fff'}}>
+            <Pressable
+              style={styles.attrItem}
+              onPress={() =>
+                navigation.navigate('EditProfileForm', {
+                  title: 'Sửa tên',
+                  value:
+                    dataUpdate && dataUpdate.FullName
+                      ? dataUpdate.FullName
+                      : profile?.FullName,
+                  state: ATTRIBUTE.FULLNAME,
+                  previousRoute: route.name,
+                })
+              }>
+              <Text style={styles.attrTitle}>Tên</Text>
+              <View style={styles.attrCont}>
+                <Text numberOfLines={1} style={styles.attrText}>
+                  {dataUpdate && dataUpdate.FullName
                     ? dataUpdate.FullName
-                    : profile?.FullName,
-                state: ATTRIBUTE.FULLNAME,
-                previousRoute: route.name,
-              })
-            }>
-            <Text style={styles.attrTitle}>Tên</Text>
-            <View style={styles.attrCont}>
-              <Text numberOfLines={1} style={styles.attrText}>
-                {dataUpdate && dataUpdate.FullName
-                  ? dataUpdate.FullName
-                  : profile
-                  ? profile?.FullName
-                  : ''}
-              </Text>
-              <EvilIcons name="chevron-right" size={30} color={'#000'} />
-            </View>
-          </Pressable>
+                    : profile
+                    ? profile?.FullName
+                    : ''}
+                </Text>
+                <EvilIcons name="chevron-right" size={30} color={'#000'} />
+              </View>
+            </Pressable>
+            <Pressable
+              style={styles.attrItem}
+              onPress={() =>
+                navigation.navigate('EditProfileForm', {
+                  title: 'Sửa bio',
+                  value:
+                    dataUpdate && dataUpdate.bio
+                      ? dataUpdate.bio
+                      : profile?.bio,
+                  state: ATTRIBUTE.BIO,
+                  previousRoute: route.name,
+                })
+              }>
+              <Text style={styles.attrTitle}>Bio</Text>
+              <View style={styles.attrCont}>
+                <Text numberOfLines={1} style={styles.attrText}>
+                  {dataUpdate && dataUpdate.bio
+                    ? dataUpdate.bio
+                    : profile && profile?.bio
+                    ? profile?.bio
+                    : 'Thiết lập ngay'}
+                </Text>
+
+                <EvilIcons name="chevron-right" size={30} color={'#000'} />
+              </View>
+            </Pressable>
+          </View>
+          <View style={{backgroundColor: '#fff', marginTop: 20}}>
+            <Pressable style={styles.attrItem}>
+              <Text style={styles.attrTitle}>Giới tính</Text>
+              <Pressable style={styles.attrCont}>
+                {profile?.sex && profile.sex.length ? (
+                  <Text numberOfLines={1} style={styles.attrText}>
+                    {profile.sex}
+                  </Text>
+                ) : (
+                  <Text numberOfLines={1} style={{color: '#898989'}}>
+                    Thiết lập ngay
+                  </Text>
+                )}
+                <EvilIcons name="chevron-right" size={30} color={'#000'} />
+              </Pressable>
+            </Pressable>
+            <Pressable style={styles.attrItem}>
+              <Text style={styles.attrTitle}>Ngày sinh</Text>
+              <Pressable style={styles.attrCont}>
+                {profile?.birthday && profile.birthday.length ? (
+                  <Text numberOfLines={1} style={styles.attrText}>
+                    {profile.birthday}
+                  </Text>
+                ) : (
+                  <Text numberOfLines={1} style={{color: '#898989'}}>
+                    Thiết lập ngay
+                  </Text>
+                )}
+                <EvilIcons name="chevron-right" size={30} color={'#000'} />
+              </Pressable>
+            </Pressable>
+            <Pressable style={styles.attrItem}>
+              <Text style={styles.attrTitle}>Điện thoại</Text>
+              <Pressable style={styles.attrCont}>
+                <Text numberOfLines={1} style={styles.attrText}>
+                  ********32
+                </Text>
+                <EvilIcons name="chevron-right" size={30} color={'#000'} />
+              </Pressable>
+            </Pressable>
+            <Pressable style={styles.attrItem}>
+              <Text style={styles.attrTitle}>Email</Text>
+              <Pressable style={styles.attrCont}>
+                <Text numberOfLines={1} style={styles.attrText}>
+                  n*****1@gmail.com
+                </Text>
+                <EvilIcons name="chevron-right" size={30} color={'#000'} />
+              </Pressable>
+            </Pressable>
+          </View>
+
           <Pressable
-            style={styles.attrItem}
-            onPress={() =>
-              navigation.navigate('EditProfileForm', {
-                title: 'Sửa bio',
-                value:
-                  dataUpdate && dataUpdate.bio ? dataUpdate.bio : profile?.bio,
-                state: ATTRIBUTE.BIO,
-                previousRoute: route.name,
-              })
-            }>
-            <Text style={styles.attrTitle}>Bio</Text>
-            <View style={styles.attrCont}>
-              <Text numberOfLines={1} style={styles.attrText}>
-                {dataUpdate && dataUpdate.bio
-                  ? dataUpdate.bio
-                  : profile && profile?.bio
-                  ? profile?.bio
-                  : 'Thiết lập ngay'}
-              </Text>
-
-              <EvilIcons name="chevron-right" size={30} color={'#000'} />
-            </View>
-          </Pressable>
-        </View>
-        <View style={{backgroundColor: '#fff', marginTop: 20}}>
-          <Pressable style={styles.attrItem}>
-            <Text style={styles.attrTitle}>Giới tính</Text>
-            <Pressable style={styles.attrCont}>
-              {profile?.sex && profile.sex.length ? (
-                <Text numberOfLines={1} style={styles.attrText}>
-                  {profile.sex}
-                </Text>
-              ) : (
-                <Text numberOfLines={1} style={{color: '#898989'}}>
-                  Thiết lập ngay
-                </Text>
-              )}
-              <EvilIcons name="chevron-right" size={30} color={'#000'} />
-            </Pressable>
-          </Pressable>
-          <Pressable style={styles.attrItem}>
-            <Text style={styles.attrTitle}>Ngày sinh</Text>
-            <Pressable style={styles.attrCont}>
-              {profile?.birthday && profile.birthday.length ? (
-                <Text numberOfLines={1} style={styles.attrText}>
-                  {profile.birthday}
-                </Text>
-              ) : (
-                <Text numberOfLines={1} style={{color: '#898989'}}>
-                  Thiết lập ngay
-                </Text>
-              )}
-              <EvilIcons name="chevron-right" size={30} color={'#000'} />
-            </Pressable>
-          </Pressable>
-          <Pressable style={styles.attrItem}>
-            <Text style={styles.attrTitle}>Điện thoại</Text>
-            <Pressable style={styles.attrCont}>
-              <Text numberOfLines={1} style={styles.attrText}>
-                ********32
-              </Text>
-              <EvilIcons name="chevron-right" size={30} color={'#000'} />
-            </Pressable>
-          </Pressable>
-          <Pressable style={styles.attrItem}>
-            <Text style={styles.attrTitle}>Email</Text>
-            <Pressable style={styles.attrCont}>
-              <Text numberOfLines={1} style={styles.attrText}>
-                n*****1@gmail.com
-              </Text>
-              <EvilIcons name="chevron-right" size={30} color={'#000'} />
-            </Pressable>
-          </Pressable>
-        </View>
-
-        <Pressable
-          onPress={dataUpdate ? UploadImage : null}
-          style={{
-            backgroundColor: dataUpdate ? '#0063ec' : '#c3c3c3',
-            marginTop: 20,
-            paddingVertical: 10,
-            alignContent: 'center',
-            width: '100%',
-            flexDirection: 'row',
-            justifyContent: 'center',
-          }}>
-          <Text
+            onPress={dataUpdate ? UploadImage : null}
             style={{
-              color: dataUpdate ? '#fff' : '#424242',
-              fontSize: 16,
-              fontWeight: '600',
+              backgroundColor: dataUpdate ? '#0063ec' : '#c3c3c3',
+              marginTop: 20,
+              paddingVertical: 10,
+              alignContent: 'center',
+              width: '100%',
+              flexDirection: 'row',
+              justifyContent: 'center',
             }}>
-            Lưu
-          </Text>
-        </Pressable>
-      </View>
-    </ScrollView>
+            <Text
+              style={{
+                color: dataUpdate ? '#fff' : '#424242',
+                fontSize: 16,
+                fontWeight: '600',
+              }}>
+              Lưu
+            </Text>
+          </Pressable>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({
@@ -276,6 +272,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     marginTop: 10,
     borderRadius: 8,
+  },
+  avatar: {
+    width: 84,
+    height: 84,
+    borderRadius: 42,
+    borderColor: 'white',
+    borderWidth: 2,
   },
 });
 export default EditProfileScreen;

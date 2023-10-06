@@ -6,6 +6,7 @@ import store from '../../stores';
 import {delLikeSong, postLiked} from '../../stores/action/actionReducer';
 import useProfile from '../../hooks/useProfile';
 import * as RootNavigation from '../../routes/RootNavigation';
+import {ILiked} from '../../constants';
 const HeartComponent = ({song}: any) => {
   const {dataLiked, isLogin} = useContext(AuthContext);
   const profile = useProfile(isLogin);
@@ -38,7 +39,7 @@ const HeartComponent = ({song}: any) => {
     }
   };
   const dislikeSong = () => {
-    function findSong(item: any) {
+    function findSong(item: ILiked) {
       return item.id_song === song.id && item.id_user === profile?.AccountID;
     }
     let likeItem = dataLiked.find(findSong);
@@ -48,7 +49,7 @@ const HeartComponent = ({song}: any) => {
   return (
     <Ionicons
       onPress={
-        dataLiked.find((item: any) => {
+        dataLiked.find((item: ILiked) => {
           return (
             item.id_song === song.id && profile?.AccountID === item.id_user
           );
@@ -57,7 +58,7 @@ const HeartComponent = ({song}: any) => {
           : likeSongs
       }
       name={
-        dataLiked.find((item: any) => {
+        dataLiked.find((item: ILiked) => {
           return (
             item.id_song === song.id && profile?.AccountID === item.id_user
           );
@@ -67,7 +68,7 @@ const HeartComponent = ({song}: any) => {
       }
       size={28}
       color={
-        dataLiked.find((item: any) => {
+        dataLiked.find((item: ILiked) => {
           return (
             item.id_song === song.id && profile?.AccountID === item.id_user
           );

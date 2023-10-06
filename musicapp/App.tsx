@@ -15,6 +15,7 @@ import SplashScreen from 'react-native-splash-screen';
 import {Platform} from 'react-native';
 import {Provider} from 'react-redux';
 import store from './src/stores';
+import ModalPlayerComponent from './src/component/page/player/Modal';
 
 const App = () => {
   useEffect(() => {
@@ -27,6 +28,7 @@ const App = () => {
       <AuthProvider>
         <MainRouter />
         <ModalPortal />
+        <ModalPlayerComponent />
       </AuthProvider>
     </Provider>
   );

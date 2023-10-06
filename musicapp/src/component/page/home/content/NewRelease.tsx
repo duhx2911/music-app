@@ -1,5 +1,6 @@
 import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import useFetch from '../../../../hooks/useFetch';
+import {Song} from '../../../../constants';
 
 const NewRelease = () => {
   const {data: dataMusic} = useFetch('/newrelease');
@@ -12,21 +13,21 @@ const NewRelease = () => {
         horizontal
         showsHorizontalScrollIndicator={false}
         pagingEnabled
-        renderItem={(item: any) => {
+        renderItem={({item}: {item: Song}) => {
           return (
-            <Pressable key={item.item.id} style={styles.cardItem}>
-              <Image style={styles.cardImg} source={{uri: item.item.artwork}} />
+            <Pressable key={item.id} style={styles.cardItem}>
+              <Image style={styles.cardImg} source={{uri: item.artwork}} />
               <Text
                 ellipsizeMode="tail"
                 numberOfLines={1}
                 style={styles.cardTitle}>
-                {item.item.title}
+                {item.title}
               </Text>
               <Text
                 ellipsizeMode="tail"
                 numberOfLines={1}
                 style={styles.cardSinger}>
-                {item.item.artist}
+                {item.artist}
               </Text>
             </Pressable>
           );

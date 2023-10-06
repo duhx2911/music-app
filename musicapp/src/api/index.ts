@@ -61,17 +61,17 @@ export const postAPI = async ({path, body}: {path: string; body: any}) => {
 };
 
 export const putAPI = (body: any) => {
-  return axios.put(`http://10.0.2.2:8080/products/${body.id}`, body);
+  return axios.put(`${ENV_BE}/products/${body.id}`, body);
   // .then((response) => {
   //   return response.status;
   // });
 };
 export const putAPIAccount = (body: any) => {
-  return axios.put(`http://10.0.2.2:8080/account/${body.AccountID}`, body);
+  return axios.put(`${ENV_BE}/account/${body.AccountID}`, body);
 };
 
 // DELETE
 
 export const deleteAPI = (body: any) => {
-  return axios.delete(`http://10.0.2.2:8080/products/${body.id}`);
+  return axios.delete(`${ENV_BE}/products/${body.id}`);
 };

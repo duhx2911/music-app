@@ -4,8 +4,9 @@ import {AuthContext} from '../../../context';
 import {View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import TrackPlayer from 'react-native-track-player';
+import {Song} from '../../../constants';
 
-const SuggestSearchComponent = () => {
+const SuggestSearchComponent = ({handleStatus}: any) => {
   const {searchVal, setCurrentTrack, setCurrentIndex, setupPlayer} =
     useContext(AuthContext);
   const [dataSuggest, setDataSuggest] = useState([]);
@@ -18,22 +19,30 @@ const SuggestSearchComponent = () => {
     <View>
       <View>
         {searchVal && searchVal[0] && (
-          <Pressable style={styles.keySuggest}>
+          <Pressable
+            style={styles.keySuggest}
+            onPress={() => handleStatus(searchVal[0].title)}>
             <Text>{searchVal[0].title}</Text>
           </Pressable>
         )}
         {searchVal && searchVal[1] && (
-          <Pressable style={styles.keySuggest}>
+          <Pressable
+            style={styles.keySuggest}
+            onPress={() => handleStatus(searchVal[1].title)}>
             <Text>{searchVal[1].title}</Text>
           </Pressable>
         )}
         {searchVal && searchVal[0] && (
-          <Pressable style={styles.keySuggest}>
+          <Pressable
+            style={styles.keySuggest}
+            onPress={() => handleStatus(searchVal[0].artist)}>
             <Text>{searchVal[0].artist}</Text>
           </Pressable>
         )}
         {searchVal && searchVal[1] && (
-          <Pressable style={styles.keySuggest}>
+          <Pressable
+            style={styles.keySuggest}
+            onPress={() => handleStatus(searchVal[1].artist)}>
             <Text>{searchVal[1].artist}</Text>
           </Pressable>
         )}
@@ -41,67 +50,55 @@ const SuggestSearchComponent = () => {
       </View>
       <View style={{marginTop: 20}}>
         {dataSuggest &&
-          dataSuggest.map(
-            (
-              item: {
-                id: number;
-                genre: string;
-                title: string;
-                artwork: string;
-                artist: string;
-                url: string;
-              },
-              index,
-            ) => {
-              return (
-                <Pressable
-                  onPress={async () => {
-                    await setupPlayer(searchVal);
-                    await TrackPlayer.pause();
-                    await TrackPlayer.skip(index);
-                    await TrackPlayer.play();
-                    const trackObject = await TrackPlayer.getTrack(index);
-                    setCurrentTrack(trackObject);
-                    setCurrentIndex(index);
-                  }}
-                  key={item.id}
+          dataSuggest.map((item: Song, index) => {
+            return (
+              <Pressable
+                onPress={async () => {
+                  await setupPlayer(searchVal);
+                  await TrackPlayer.pause();
+                  await TrackPlayer.skip(index);
+                  await TrackPlayer.play();
+                  const trackObject = await TrackPlayer.getTrack(index);
+                  setCurrentTrack(trackObject);
+                  setCurrentIndex(index);
+                }}
+                key={item.id}
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginBottom: 15,
+                }}>
+                <View
                   style={{
                     flexDirection: 'row',
-                    justifyContent: 'space-between',
+                    columnGap: 10,
                     alignItems: 'center',
-                    marginBottom: 15,
                   }}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      columnGap: 10,
-                      alignItems: 'center',
-                    }}>
-                    <Image
-                      source={{uri: item.artwork}}
-                      style={{width: 50, height: 50, borderRadius: 8}}
-                    />
-                    <View>
-                      <Text
-                        style={{
-                          color: '#000',
-                          fontSize: 16,
-                          fontWeight: '500',
-                        }}>
-                        {item.title}
-                      </Text>
-                      <Text>{item.artist}</Text>
-                    </View>
-                  </View>
-                  <Ionicons
-                    name="ellipsis-horizontal"
-                    size={24}
-                    color={'#828282'}
+                  <Image
+                    source={{uri: item.artwork}}
+                    style={{width: 50, height: 50, borderRadius: 8}}
                   />
-                </Pressable>
-              );
-            },
-          )}
+                  <View>
+                    <Text
+                      style={{
+                        color: '#000',
+                        fontSize: 16,
+                        fontWeight: '500',
+                      }}>
+                      {item.title}
+                    </Text>
+                    <Text>{item.artist}</Text>
+                  </View>
+                </View>
+                <Ionicons
+                  name="ellipsis-horizontal"
+                  size={24}
+                  color={'#828282'}
+                />
+              </Pressable>
+            );
+          })}
       </View>
     </View>
   );

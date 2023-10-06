@@ -1,10 +1,9 @@
 import {useContext} from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {Pressable, StyleSheet, Text, View, Image} from 'react-native';
 import {AuthContext} from '../../../context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
-import {Avatar} from '@rneui/themed';
 import HeartComponent from '../../button/Heart';
+import {ILiked} from '../../../constants';
 
 const LikedItemComponent = () => {
   const {dataLiked} = useContext(AuthContext);
@@ -43,7 +42,7 @@ const LikedItemComponent = () => {
           </Text>
         </Pressable>
       </View>
-      {dataLiked.map((item: any, index: number) => {
+      {dataLiked.map((item: ILiked, index: number) => {
         return (
           <Pressable
             key={item.id}
@@ -54,10 +53,9 @@ const LikedItemComponent = () => {
               },
             ]}>
             <View style={styles.musicInfo}>
-              <Avatar
+              <Image
                 source={{uri: item.artwork}}
-                size={48}
-                avatarStyle={{borderRadius: 5}}
+                style={{width: 48, height: 48, borderRadius: 5}}
               />
               <View style={{flex: 1}}>
                 <Text

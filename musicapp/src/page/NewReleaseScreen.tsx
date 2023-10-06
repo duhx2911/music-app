@@ -7,10 +7,9 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
+  SafeAreaView,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
-import {Avatar} from '@rneui/themed';
 import useFetch from '../hooks/useFetch';
 import {useContext, useEffect} from 'react';
 import {AuthContext} from '../context';
@@ -23,9 +22,10 @@ import TrackPlayer, {
 
 import BottomModalComponent from '../component/page/player/BottomModal';
 import HeartComponent from '../component/button/Heart';
+import {Song} from '../constants';
 
 const NewReleaseScreen = ({route}: any) => {
-  const {genreID} = route.params;
+  const {genreID, title, subtitle} = route.params;
   const {data: dataMusic} = useFetch(`/genre/${genreID}`);
   const {
     currentTrack,
@@ -41,11 +41,12 @@ const NewReleaseScreen = ({route}: any) => {
   // useEffect(() => {
   //   setupPlayer(dataMusic);
   // }, [dataMusic]);
+
   useEffect(() => {
     (async () => {
       if (State.Playing === playbackState) {
         if (progress.position.toFixed(0) === progress.duration.toFixed(0)) {
-          if (currentIndex < dataMusic.length) {
+          if (currentIndex < dataMusic.length - 1) {
             setCurrentIndex(currentIndex + 1);
             const trackObject = await TrackPlayer.getTrack(currentIndex + 1);
             setCurrentTrack(trackObject);
@@ -59,8 +60,8 @@ const NewReleaseScreen = ({route}: any) => {
     })();
   }, [progress]);
   return (
-    <>
-      <View style={{backgroundColor: '#fff', flex: 1, flexGrow: 1}}>
+    <SafeAreaView style={{backgroundColor: '#fff', flex: 1}}>
+      <View style={{flex: 1, flexGrow: 1}}>
         <View
           style={{
             height: 300,
@@ -86,12 +87,12 @@ const NewReleaseScreen = ({route}: any) => {
                 justifyContent: 'space-between',
                 marginTop: 20,
               }}>
-              <View>
+              <View style={{flex: 1}}>
                 <Text style={{color: '#fff', fontSize: 24, fontWeight: '500'}}>
-                  Mới phát hành
+                  {title}
                 </Text>
-                <Text style={{color: '#fff', fontSize: 16}}>
-                  Bài hát mới phát hành
+                <Text style={{color: '#fff', fontSize: 16}} numberOfLines={1}>
+                  {subtitle}
                 </Text>
               </View>
               <View>
@@ -114,7 +115,7 @@ const NewReleaseScreen = ({route}: any) => {
 
         <FlatList
           data={dataMusic}
-          renderItem={({item, index}: any) => {
+          renderItem={({item, index}: {item: Song; index: number}) => {
             return (
               <TouchableOpacity
                 key={item.id}
@@ -147,10 +148,9 @@ const NewReleaseScreen = ({route}: any) => {
                 )}
 
                 <View style={styles.musicInfo}>
-                  <Avatar
+                  <Image
                     source={{uri: item.artwork}}
-                    size={48}
-                    avatarStyle={{borderRadius: 5}}
+                    style={{width: 48, height: 48, borderRadius: 5}}
                   />
                   <View style={{flex: 1}}>
                     <Text
@@ -176,7 +176,7 @@ const NewReleaseScreen = ({route}: any) => {
       </View>
       {currentTrack && <BottomModalComponent />}
       {/* <PlayMusicComponent /> */}
-    </>
+    </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({

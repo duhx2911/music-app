@@ -1,8 +1,7 @@
-import {Avatar} from '@rneui/themed';
 import {useContext} from 'react';
-import {Text} from 'react-native';
+import {Text, Pressable} from 'react-native';
 import {View} from 'react-native';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Image} from 'react-native';
 import {AuthContext} from '../../../context';
 import useProfile from '../../../hooks/useProfile';
 
@@ -15,22 +14,21 @@ const HeaderComponent = (handleDrawer: any) => {
   return (
     <View style={styles.header}>
       <Text style={{color: '#000', fontSize: 20, fontWeight: '500'}}>
-        {isLogin ? 'Hi, Xuan Duc' : 'Hi'}
+        {isLogin ? 'Hi, ' + profile?.FullName : 'Hi'}
       </Text>
 
-      <Avatar
-        source={
-          isLogin && profile
-            ? {uri: profile.AvatarImageName}
-            : {
-                uri: 'https://duhxmp3.000webhostapp.com/images/avatar/user-profile.jpg',
-              }
-        }
-        size={36}
-        rounded
-        onPress={openDrawer}
-        avatarStyle={{borderColor: '#2871ef', borderWidth: 2}}
-      />
+      <Pressable onPress={openDrawer}>
+        <Image
+          source={
+            isLogin && profile
+              ? {uri: profile.AvatarImageName}
+              : {
+                  uri: 'https://duhxmp3.000webhostapp.com/images/avatar/user-profile.jpg',
+                }
+          }
+          style={styles.avatar}
+        />
+      </Pressable>
     </View>
   );
 };
@@ -39,6 +37,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  avatar: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    borderColor: '#2871ef',
+    borderWidth: 2,
   },
 });
 export default HeaderComponent;

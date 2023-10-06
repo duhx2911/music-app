@@ -1,4 +1,4 @@
-import {Alert, Pressable, ScrollView, Text} from 'react-native';
+import {Alert, Pressable, ScrollView, Text, SafeAreaView} from 'react-native';
 import HeaderUser from '../component/page/user/Header';
 import ContentUser from './../component/page/user/Content';
 import {useContext} from 'react';
@@ -23,7 +23,7 @@ const UserScreen = ({navigation}: any) => {
   const {isLogin, logout, currentTrack} = useContext(AuthContext);
   const profile = useProfile(isLogin);
   return (
-    <>
+    <SafeAreaView style={{flex: 1}}>
       <ScrollView>
         <HeaderUser userProps={{openLogin, openSignup, isLogin, profile}} />
         <ContentUser userProps={{openProfile}} />
@@ -53,7 +53,7 @@ const UserScreen = ({navigation}: any) => {
         ) : null}
       </ScrollView>
       {currentTrack && <BottomModalComponent />}
-    </>
+    </SafeAreaView>
   );
 };
 export default UserScreen;

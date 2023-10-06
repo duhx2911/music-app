@@ -1,29 +1,11 @@
-interface ISong {
-  id: number;
-  genre: string;
-  title: string;
-  artwork: string;
-  artist: string;
-  url: string;
-  like: number;
-  view: number;
-}
-interface ILiked {
-  id: number;
-  id_song: number;
-  id_user: number;
-  genre: string;
-  title: string;
-  artwork: string;
-  artist: string;
-  url: string;
-}
+import {ILiked, Song} from '../../constants';
+
 const MusicReducer = (
-  state: {loading: boolean; songs: ISong[]} = {
+  state: {loading: boolean; songs: Song[]} = {
     loading: false,
     songs: [],
   },
-  action: {songs: ISong[]; song: ISong; id: number; type: string},
+  action: {songs: Song[]; song: Song; id: number; type: string},
 ) => {
   switch (action.type) {
     case 'SHOW_LOADING': {
@@ -50,7 +32,7 @@ const MusicReducer = (
       let lstSong = state.songs;
       let newlstSong;
       if (action.song) {
-        newlstSong = lstSong.map((item: ISong) => {
+        newlstSong = lstSong.map((item: Song) => {
           if (item.id === action.song.id) {
             return action.song;
           }
@@ -69,7 +51,7 @@ const MusicReducer = (
       let newLstSong;
       if (action.id) {
         newLstSong = lstSong.filter(
-          (item: ISong) => item.id !== Number(action.id),
+          (item: Song) => item.id !== Number(action.id),
         );
       }
       return {

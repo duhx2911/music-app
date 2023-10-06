@@ -104,17 +104,11 @@ const AuthProvider = ({children}: {children: React.ReactNode}) => {
   const setupPlayer = async (dataMusic: any) => {
     try {
       await TrackPlayer.setupPlayer();
-      if ((await TrackPlayer.getQueue()).length) {
-        await TrackPlayer.reset();
-      }
-      // console.log('Check Player: run try');
-
       await TrackPlayer.add(dataMusic);
     } catch (error) {
       if ((await TrackPlayer.getQueue()).length) {
         await TrackPlayer.reset();
       }
-      // console.log('Check Player: run catch');
       await TrackPlayer.add(dataMusic);
     }
   };

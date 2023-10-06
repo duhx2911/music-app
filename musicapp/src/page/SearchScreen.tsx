@@ -1,5 +1,11 @@
 import {useContext, useEffect, useState} from 'react';
-import {ScrollView, TextInput, View, Pressable} from 'react-native';
+import {
+  ScrollView,
+  TextInput,
+  View,
+  Pressable,
+  SafeAreaView,
+} from 'react-native';
 import {AuthContext} from '../context';
 import BottomModalComponent from '../component/page/player/BottomModal';
 import RecommendComponent from '../component/page/search/Recommend';
@@ -36,8 +42,8 @@ const SearchScreen = () => {
     }
   }, [keysearch]);
   return (
-    <>
-      <ScrollView style={{backgroundColor: '#fff'}}>
+    <SafeAreaView style={{backgroundColor: '#fff', flex: 1}}>
+      <ScrollView>
         <View
           style={{
             flexDirection: 'row',
@@ -90,14 +96,14 @@ const SearchScreen = () => {
           (status === Status.EndTyping || status === Status.None) ? (
             <ResultSearchComponent />
           ) : status === Status.Typing && searchVal ? (
-            <SuggestSearchComponent />
+            <SuggestSearchComponent handleStatus={handleStatus} />
           ) : (
             <RecommendComponent handleStatus={handleStatus} />
           )}
         </View>
       </ScrollView>
       {currentTrack && <BottomModalComponent />}
-    </>
+    </SafeAreaView>
   );
 };
 export default SearchScreen;

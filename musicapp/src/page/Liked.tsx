@@ -1,5 +1,4 @@
-import {ScrollView, Text, View} from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import {ScrollView, Text, View, SafeAreaView} from 'react-native';
 import LikedItemComponent from '../component/page/liked/LikedItem';
 import {useContext} from 'react';
 import {AuthContext} from '../context';
@@ -10,19 +9,18 @@ const LikedScreen = () => {
   // console.log(dataLiked);
 
   return (
-    <>
-      <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
+      <ScrollView>
         {isLogin && dataLiked && dataLiked.length ? (
           <LikedItemComponent />
         ) : (
           <View>
-            <Ionicons name="musical-note-sharp" size={36} color={'#000'} />
             <Text>Bạn chưa thích bài hát nào</Text>
           </View>
         )}
       </ScrollView>
       {currentTrack && <BottomModalComponent />}
-    </>
+    </SafeAreaView>
   );
 };
 export default LikedScreen;

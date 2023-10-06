@@ -1,4 +1,4 @@
-import {ScrollView, View} from 'react-native';
+import {ScrollView, View, SafeAreaView} from 'react-native';
 import HeaderComponent from '../component/page/home/Header';
 import {StyleSheet} from 'react-native';
 import ContentComponent from '../component/page/home/Content';
@@ -12,7 +12,7 @@ const HomeScreen = ({navigation}: any) => {
   };
   const {currentTrack} = useContext(AuthContext);
   return (
-    <>
+    <SafeAreaView style={{flex: 1}}>
       <ScrollView style={{backgroundColor: '#ffffff'}}>
         <View style={styles.container}>
           <HeaderComponent handleDrawer={handleDrawer} />
@@ -20,7 +20,7 @@ const HomeScreen = ({navigation}: any) => {
         </View>
       </ScrollView>
       {currentTrack && <BottomModalComponent />}
-    </>
+    </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({

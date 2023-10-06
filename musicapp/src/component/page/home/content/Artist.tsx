@@ -1,8 +1,8 @@
-import {StyleSheet, Text, FlatList, Pressable} from 'react-native';
+import {StyleSheet, Text, FlatList, Pressable, Image} from 'react-native';
 import {View} from 'react-native';
 import useFetch from '../../../../hooks/useFetch';
-import {Avatar} from '@rneui/themed';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {Artist} from '../../../../constants';
 
 const ArtistsComponent = () => {
   const {data: dataArtist} = useFetch('/artisttoday');
@@ -16,19 +16,10 @@ const ArtistsComponent = () => {
         showsHorizontalScrollIndicator={false}
         pagingEnabled
         data={dataArtist}
-        renderItem={({
-          item,
-        }: {
-          item: {
-            id: number;
-            name: string;
-            avatar_artist: string;
-            info: string;
-          };
-        }) => {
+        renderItem={({item}: {item: Artist}) => {
           return (
             <Pressable key={item.id} style={styles.cardItem}>
-              <Avatar source={{uri: item.avatar_artist}} size={126} rounded />
+              <Image source={{uri: item.avatar_artist}} style={styles.avatar} />
               <Text style={styles.cardTitle}>{item.name}</Text>
             </Pressable>
           );
@@ -69,5 +60,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     columnGap: 5,
   },
+  avatar: {width: 126, height: 126, borderRadius: 63},
 });
 export default ArtistsComponent;

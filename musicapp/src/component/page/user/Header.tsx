@@ -1,5 +1,4 @@
-import {Avatar} from '@rneui/themed';
-import {StyleSheet, Pressable, View, Text} from 'react-native';
+import {StyleSheet, Pressable, View, Text, Image} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const HeaderUser = ({userProps}: any) => {
@@ -19,7 +18,7 @@ const HeaderUser = ({userProps}: any) => {
           <Ionicons name="settings-sharp" size={24} color={'white'} />
         </Pressable>
       </View>
-      <Avatar
+      <Image
         source={
           userProps.isLogin && userProps.profile
             ? {
@@ -29,9 +28,7 @@ const HeaderUser = ({userProps}: any) => {
                 uri: 'https://duhxmp3.000webhostapp.com/images/avatar/user-profile.jpg',
               }
         }
-        avatarStyle={{borderColor: 'white', borderWidth: 2}}
-        size={84}
-        rounded
+        style={styles.avatar}
       />
       {userProps.isLogin && userProps.profile ? (
         <Text
@@ -80,6 +77,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 5,
+  },
+  avatar: {
+    width: 84,
+    height: 84,
+    borderRadius: 42,
+    borderColor: 'white',
+    borderWidth: 2,
   },
 });
 export default HeaderUser;
