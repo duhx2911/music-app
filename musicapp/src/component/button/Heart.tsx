@@ -6,8 +6,8 @@ import store from '../../stores';
 import {delLikeSong, postLiked} from '../../stores/action/actionReducer';
 import useProfile from '../../hooks/useProfile';
 import * as RootNavigation from '../../routes/RootNavigation';
-import {ILiked} from '../../constants';
-const HeartComponent = ({song}: any) => {
+import {ILiked, Song} from '../../constants';
+const HeartComponent = ({song}: {song: Song}) => {
   const {dataLiked, isLogin} = useContext(AuthContext);
   const profile = useProfile(isLogin);
   //   console.log(song);
@@ -46,36 +46,15 @@ const HeartComponent = ({song}: any) => {
     // console.log(likeItem);
     store.dispatch(delLikeSong(likeItem.id, showDisliked));
   };
+  const checkLiked = dataLiked.find((item: ILiked) => {
+    return item.id_song === song.id && profile?.AccountID === item.id_user;
+  });
   return (
     <Ionicons
-      onPress={
-        dataLiked.find((item: ILiked) => {
-          return (
-            item.id_song === song.id && profile?.AccountID === item.id_user
-          );
-        })
-          ? dislikeSong
-          : likeSongs
-      }
-      name={
-        dataLiked.find((item: ILiked) => {
-          return (
-            item.id_song === song.id && profile?.AccountID === item.id_user
-          );
-        })
-          ? 'heart'
-          : 'heart-outline'
-      }
+      onPress={checkLiked ? dislikeSong : likeSongs}
+      name={checkLiked ? 'heart' : 'heart-outline'}
       size={28}
-      color={
-        dataLiked.find((item: ILiked) => {
-          return (
-            item.id_song === song.id && profile?.AccountID === item.id_user
-          );
-        })
-          ? '#e24444'
-          : '#555555'
-      }
+      color={checkLiked ? '#e24444' : '#555555'}
     />
   );
 };
